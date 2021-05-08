@@ -17,7 +17,6 @@ import com.google.firebase.database.*;
 public class MainActivity extends AppCompatActivity {
 
 
-     DatabaseReference ref ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,12 +28,30 @@ public class MainActivity extends AppCompatActivity {
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String nickname= txtNickName.getText().toString();
-                 DatabaseReference mDatabase;
-// ...
-                mDatabase = FirebaseDatabase.getInstance().getReference();
-                mDatabase.child("users").child("userId").setValue("user");
-                //Toast.makeText(MainActivity.this,root.child("janith").getKey() , Toast.LENGTH_SHORT).show();
+                DatabaseReference db =FirebaseDatabase.getInstance().getReference("Messages");
+                Log.v("print",db.getParent().toString());
+
+                db.child("test1").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Log.v("print", snapshot.getValue(String.class));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+            }
+        });
+
+    }
+}
+
+
+//Toast.makeText(MainActivity.this,root.child("janith").getKey() , Toast.LENGTH_SHORT).show();
 
 
 //                if (!nickname.isEmpty()){
@@ -49,8 +66,3 @@ public class MainActivity extends AppCompatActivity {
 //                }else{
 //                    Toast.makeText(MainActivity.this, "Please Input a Name!", Toast.LENGTH_SHORT).show();
 //                }
-            }
-        });
-
-    }
-}
